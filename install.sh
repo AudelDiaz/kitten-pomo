@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Instalador de Pixel Kitten Pomodoro.
-# Copia código + assets a XDG_DATA_HOME (~/.local/share/kitten-pomo),
-# crea el symlink en ~/.local/bin e instala el .desktop.
-# No toca tu niri/hyprland/GNOME config ni tu pomodoro.jsonl existente.
+# Pixel Kitten Pomodoro installer.
+# Copies code + assets to XDG_DATA_HOME (~/.local/share/kitten-pomo),
+# creates the ~/.local/bin symlink and installs the .desktop launcher.
+# Never touches your niri/hyprland/GNOME config or your existing pomodoro.jsonl.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -16,9 +16,9 @@ cp "$REPO_DIR/kitten-pomo.py" "$REPO_DIR/brain.py" "$DATA_DIR/"
 chmod +x "$DATA_DIR/kitten-pomo.py"
 cp -r "$REPO_DIR/assets/svg" "$REPO_DIR/assets/sprites" "$REPO_DIR/assets/sounds" "$DATA_DIR/"
 
-# El historial nunca se sobrescribe: el instalador no copia *.jsonl.
+# History is never overwritten: the installer copies no *.jsonl files.
 if [ ! -e "$DATA_DIR/pomodoro.jsonl" ]; then
-  echo "(sin historial previo, se creará al completar tu primer pomodoro)"
+  echo "(no previous history, it will be created when you complete your first pomodoro)"
 fi
 
 ln -sfn "$DATA_DIR/kitten-pomo.py" "$BIN_DIR/kitten-pomo"
@@ -36,6 +36,6 @@ fi
 
 echo "OK:"
 echo "  bin:      $BIN_DIR/kitten-pomo"
-echo "  datos:    $DATA_DIR"
+echo "  data:     $DATA_DIR"
 echo "  launcher: $APPS_DIR/kitten-pomo.desktop"
-echo "Reglas de ventana: ver packaging/niri|hyprland|gnome (no se instalan solas)."
+echo "Window rules: see packaging/niri|hyprland|gnome (not installed automatically)."

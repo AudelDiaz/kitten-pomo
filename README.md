@@ -1,59 +1,60 @@
 # Pixel Kitten Pomodoro 🐈‍⬛
 
-Una gatita negra pixel-art que vive flotando en tu escritorio y te acompaña en
-tus pomodoros. Cozy, no estricta: te invita al break, no te bloquea.
+A black pixel-art kitten that floats on your desktop and keeps you company
+through your pomodoros. Cozy, not strict: it invites you to take a break,
+never blocks you.
 
-## Controles
+## Controls
 
-| Acción              | Efecto                          |
-|---------------------|---------------------------------|
-| Click izquierdo     | Iniciar pomodoro 25:00          |
-| Doble click         | Pausar / reanudar               |
-| Click derecho       | Reset (rompe la racha)          |
-| Rueda (2x en 3s)    | Cerrar (con confirmación)       |
-| `Shift+Click` o `T` | Simular fin (2s, para probar)   |
-| Arrastrar           | Mover                            |
+| Action              | Effect                        |
+|---------------------|-------------------------------|
+| Left click          | Start a 25:00 pomodoro        |
+| Double click        | Pause / resume                |
+| Right click         | Reset (breaks the streak)     |
+| Wheel (2x in 3s)    | Quit (with confirmation)      |
+| `Shift+Click` or `T`| Simulate finish (2s, for testing) |
+| Drag                | Move                          |
 
-Al completar: sonido cozy + shake de 5s + break de 5:00 dentro de la burbuja.
-**4 pomodoros seguidos en 150 min → break largo de 20:00.**
+On completion: cozy sound + 5s shake + 5:00 break inside the bubble.
+**4 pomodoros in a row within 150 min → 20:00 long break.**
 
-## Instalación
+## Install
 
-Requiere Python 3 + PySide6 (`pip install PySide6`).
+Requires Python 3 + PySide6 (`pip install PySide6`).
 
 ```bash
 ./install.sh
-# o: make install
+# or: make install
 ```
 
-Instala en `~/.local/share/kitten-pomo`, symlink en `~/.local/bin/kitten-pomo`
-y launcher `.desktop`. Tu `pomodoro.jsonl` existente se conserva siempre.
-Ver `docs/paths.md`.
+Installs to `~/.local/share/kitten-pomo`, symlinks `~/.local/bin/kitten-pomo`,
+and installs the `.desktop` launcher. Your existing `pomodoro.jsonl` is
+always preserved. See `docs/paths.md`.
 
 ```bash
-./uninstall.sh            # conserva el historial
-./uninstall.sh --purge-data  # borra todo incluido el historial
+./uninstall.sh               # keeps history
+./uninstall.sh --purge-data  # removes everything including history
 ```
 
-## Ventana por entorno
+## Window rules per environment
 
 | Niri | Hyprland | GNOME |
 |------|----------|-------|
-| ✅ probado | 🧪 contrib | 🧪 contrib |
+| ✅ tested | 🧪 contrib | 🧪 contrib |
 
-Ver `docs/compositors.md` y `packaging/`.
+See `docs/compositors.md` and `packaging/`.
 
-## Historial
+## History
 
-Cada ciclo se guarda en `pomodoro.jsonl` (`ts/type/duration/completed`).
-Ejemplo en `examples/pomodoro.sample.jsonl`.
+Every cycle is logged to `pomodoro.jsonl` (`ts/type/duration/completed`).
+Example at `examples/pomodoro.sample.jsonl`.
 
 ```bash
-python3 brain.py --stats   # racha actual y próximo break
+python3 brain.py --stats   # current streak and next break
 ```
 
-Comparte el log con tu agente/Harness para analizar picos de foco y rachas.
+Share the log with your AI agent/Harness to analyze focus peaks and streaks.
 
-## Licencia
+## License
 
-MIT — ver `LICENSE`.
+MIT — see `LICENSE`.

@@ -1,6 +1,6 @@
-// Pixel Kitten Pomodoro — regla probada en Niri.
-// Pégala dentro de tu archivo de reglas (p.ej. cfg/rules.kdl).
-// Ventana 200x200 abajo-derecha, sin foco, 80% opacidad.
+// Pixel Kitten Pomodoro — rule tested on Niri.
+// Paste it into your rules file (e.g. cfg/rules.kdl).
+// 200x200 window, bottom-right, no focus, 80% opacity.
 window-rule {
     match app-id="kitten-pomo"
     open-floating true

@@ -8,7 +8,7 @@ test:
 	python3 brain.py --stats
 
 lint:
-	ruff check . 2>/dev/null || echo "ruff no instalado, omitiendo lint"
+	ruff check . 2>/dev/null || echo "ruff not installed, skipping lint"
 
 clean:
 	rm -rf __pycache__ .pytest_cache

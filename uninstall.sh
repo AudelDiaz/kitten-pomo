@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Desinstalador de Pixel Kitten Pomodoro.
-# Por defecto CONSERVA tu historial pomodoro.jsonl. Usa --purge-data para borrarlo también.
+# Pixel Kitten Pomodoro uninstaller.
+# By default it KEEPS your pomodoro.jsonl history. Use --purge-data to remove it too.
 set -euo pipefail
 
 DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/kitten-pomo"
@@ -11,18 +11,18 @@ PURGE=false
 
 if [ -L "$BIN_LINK" ] && [ "$(readlink "$BIN_LINK")" = "$DATA_DIR/kitten-pomo.py" ]; then
   rm "$BIN_LINK"
-  echo "quitado: $BIN_LINK"
+  echo "removed: $BIN_LINK"
 fi
-rm -f "$DESKTOP_FILE" && echo "quitado: $DESKTOP_FILE"
+rm -f "$DESKTOP_FILE" && echo "removed: $DESKTOP_FILE"
 
 if [ "$PURGE" = true ]; then
-  rm -rf "$DATA_DIR" && echo "quitado (con datos): $DATA_DIR"
+  rm -rf "$DATA_DIR" && echo "removed (with data): $DATA_DIR"
 else
   if [ -f "$DATA_DIR/pomodoro.jsonl" ]; then
     find "$DATA_DIR" -mindepth 1 -maxdepth 1 ! -name 'pomodoro.jsonl' -exec rm -rf {} +
-    echo "quitado código/assets, historial conservado en: $DATA_DIR/pomodoro.jsonl"
+    echo "removed code/assets, history kept at: $DATA_DIR/pomodoro.jsonl"
   else
-    rm -rf "$DATA_DIR" && echo "quitado: $DATA_DIR"
+    rm -rf "$DATA_DIR" && echo "removed: $DATA_DIR"
   fi
 fi
 

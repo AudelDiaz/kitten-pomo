@@ -1,14 +1,14 @@
-# Pixel Kitten Pomodoro en GNOME
+# Pixel Kitten Pomodoro on GNOME
 
-GNOME (Mutter) no tiene motor de reglas de ventana, así que no hay nada que configurar:
+GNOME (Mutter) has no window-rule engine, so there is nothing to configure:
 
-1. Corre `./install.sh` (instala bin + `.desktop`).
-2. Busca "Pixel Kitten Pomodoro" en Actividades y ejecútalo.
-3. El `always-on-top` lo pone la propia app (Qt `WindowStaysOnTopHint`
-   → `_NET_WM_STATE_ABOVE`), sin extensiones.
-4. Arrástrala donde quieras; la posición es manual.
-5. Opcional: añádela a *Startup Applications* copiando el `.desktop` a
-   `~/.config/autostart/`.
+1. Run `./install.sh` (installs bin + `.desktop`).
+2. Search "Pixel Kitten Pomodoro" in Activities and launch it.
+3. Always-on-top is provided by the app itself (Qt `WindowStaysOnTopHint`
+   → `_NET_WM_STATE_ABOVE`), no extensions needed.
+4. Drag it wherever you want; position is manual.
+5. Optional: add it to *Startup Applications* by copying the `.desktop`
+   file to `~/.config/autostart/`.
 
-Estado: ejemplo **no probado** en GNOME puro. Si algo no cuadra (foco,
-posición), abre un issue con tu versión de GNOME.
+Status: example **not tested** on stock GNOME. If something is off (focus,
+position), open an issue with your GNOME version.
