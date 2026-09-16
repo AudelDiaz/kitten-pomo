@@ -37,21 +37,28 @@ the kitten cares about your back.
 New machine? One line, that's the whole thing:
 
 ```bash
-pipx install git+https://github.com/AudelDiaz/kitten-pomo.git
+uv tool install git+https://github.com/AudelDiaz/kitten-pomo.git
 ```
 
-(`pipx` creates an isolated venv, installs PySide6 for you, and puts the
-`kitten-pomo` command on your PATH. No venv juggling, no
-`--break-system-packages`.)
+(`uv` creates an isolated venv, installs PySide6 for you, and puts both
+`kitten-pomo` and `kitten-pomo-stats` on your PATH. No venv juggling, no
+`--break-system-packages`. No `uv` yet? Grab it first:)
 
-Prefer the manual route, or no pipx around? Clone and run the installer —
-it uses pipx when available, otherwise falls back to a plain copy install:
+| Distro / OS | Command |
+|------------|---------|
+| Arch (you, probably) | `sudo pacman -S uv` |
+| macOS | `brew install uv` |
+| Anything else | `curl -LsSf astral.sh/uv/install.sh \| sh` |
+
+Prefer the manual route? Clone and run the installer — it uses `uv` when
+available (bootstrapping it for you if needed), then `pipx`, otherwise
+falls back to a plain copy install:
 
 ```bash
 git clone https://github.com/AudelDiaz/kitten-pomo.git
 cd kitten-pomo
-./install.sh            # pipx if present, else plain copy
-./install.sh --copy     # force the plain copy install
+./install.sh            # auto: uv > pipx > copy
+./install.sh --copy     # force the plain copy install (needs system PySide6)
 # or if you're fancy: make install
 ```
 

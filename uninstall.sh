@@ -11,11 +11,13 @@ DESKTOP_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/applications/kitten-pomo.desk
 PURGE=false
 [ "${1:-}" = "--purge-data" ] && PURGE=true
 
-if command -v pipx >/dev/null 2>&1 && pipx list --short 2>/dev/null | grep -q '^kitten-pomo[ ,]'; then
+if command -v uv >/dev/null 2>&1 && uv tool list 2>/dev/null | grep -q '^kitten-pomo[ ,]'; then
+  uv tool uninstall kitten-pomo
+elif command -v pipx >/dev/null 2>&1 && pipx list --short 2>/dev/null | grep -q '^kitten-pomo[ ,]'; then
   pipx uninstall kitten-pomo
 fi
 
-# remove only symlinks we own (pipx shims are already gone via pipx uninstall)
+# remove only symlinks we own (uv/pipx shims are already gone via tool uninstall)
 if [ -L "$BIN_LINK" ]; then
   case "$(readlink "$BIN_LINK")" in
     "$DATA_DIR"/*) rm "$BIN_LINK" && echo "removed: $BIN_LINK" ;;

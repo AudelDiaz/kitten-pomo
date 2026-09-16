@@ -1,18 +1,23 @@
 # Install paths
 
-Two install flavors, same app. `install.sh` picks pipx when available
-(`./install.sh --copy` forces the plain copy).
+Three install flavors, same app. `install.sh` picks `uv`, then `pipx`,
+then plain copy (`./install.sh --copy` forces the plain copy).
 
-## pipx install (recommended)
+## uv tool install (recommended)
 
 | What     | Path                                              |
 |----------|---------------------------------------------------|
-| Code     | pipx venv (`~/.local/share/pipx/venvs/kitten-pomo`) |
-| Binary   | `~/.local/bin/kitten-pomo` (console script)       |
+| Code     | uv tool venv (`~/.local/share/uv/tools/kitten-pomo`) |
+| Binary   | `~/.local/bin/kitten-pomo` (+ `kitten-pomo-stats`) |
 | History  | `~/.local/state/kitten-pomo/pomodoro.jsonl`       |
 | Launcher | `~/.local/share/applications/kitten-pomo.desktop` |
 
-## Plain copy install (no pipx)
+## pipx install
+
+Same layout as uv, with the venv at
+`~/.local/share/pipx/venvs/kitten-pomo`.
+
+## Plain copy install (no uv/pipx)
 
 | What     | Path                                                        |
 |----------|-------------------------------------------------------------|
