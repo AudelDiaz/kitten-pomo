@@ -1,0 +1,11 @@
+{"ts": "2025-09-04T09:00:00", "type": "work", "duration": 25, "completed": true, "note": "focus: ghost-blog draft"}
+{"ts": "2025-09-04T09:26:00", "type": "break", "duration": 5, "completed": true}
+{"ts": "2025-09-04T09:32:00", "type": "work", "duration": 25, "completed": true, "note": "focus: niri config"}
+{"ts": "2025-09-04T09:58:00", "type": "break", "duration": 5, "completed": true}
+{"ts": "2025-09-04T10:04:00", "type": "work", "duration": 25, "completed": true, "note": "focus: drift plugin"}
+{"ts": "2025-09-04T10:30:00", "type": "break", "duration": 5, "completed": true}
+{"ts": "2025-09-04T10:36:00", "type": "work", "duration": 25, "completed": true, "note": "focus: kitten sprite"}
+{"ts": "2025-09-04T11:02:00", "type": "break", "duration": 20, "completed": true, "note": "long break: walk + stretch"}
+{"ts": "2025-09-05T09:00:00", "type": "work", "duration": 25, "completed": true, "note": "focus: review"}
+{"ts": "2025-09-05T09:26:00", "type": "reset", "duration": 0, "completed": false, "note": "interrupted by call"}
+{"ts": "2025-09-05T09:40:00", "type": "work", "duration": 25, "completed": true, "note": "focus: docs"}

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env/
+*.egg-info/
+dist/
+build/
+
+# Historial real del usuario (datos personales, no va al repo).
+# El ejemplo sí se versiona: examples/pomodoro.sample.jsonl
+pomodoro.jsonl
+
+# Scratch local
+*.bak
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+*~
+.vscode/
+.idea/

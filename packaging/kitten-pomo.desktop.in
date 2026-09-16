@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Pixel Kitten Pomodoro
+Comment=Black kitten pomodoro — left start, double pause, right reset, middle kill (confirm)
+Exec=@HOME@/.local/bin/kitten-pomo
+Icon=@HOME@/.local/share/kitten-pomo/svg/kitten-idle.svg
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=pomodoro;timer;kitten;cat;focus;
+StartupWMClass=kitten-pomo
+StartupNotify=false
