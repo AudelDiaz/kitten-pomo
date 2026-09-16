@@ -1,15 +1,30 @@
 # Install paths
 
-`install.sh` honors `XDG_DATA_HOME` (default `~/.local`):
+Two install flavors, same app. `install.sh` picks pipx when available
+(`./install.sh --copy` forces the plain copy).
 
-| What     | Path                                               |
-|----------|----------------------------------------------------|
-| Code     | `~/.local/share/kitten-pomo/{kitten-pomo.py,brain.py}` |
-| Assets   | `~/.local/share/kitten-pomo/{svg,sprites,sounds}/` |
-| History  | `~/.local/share/kitten-pomo/pomodoro.jsonl` (the installer **never** touches it) |
-| Binary   | `~/.local/bin/kitten-pomo` (symlink)               |
-| Launcher | `~/.local/share/applications/kitten-pomo.desktop`  |
+## pipx install (recommended)
+
+| What     | Path                                              |
+|----------|---------------------------------------------------|
+| Code     | pipx venv (`~/.local/share/pipx/venvs/kitten-pomo`) |
+| Binary   | `~/.local/bin/kitten-pomo` (console script)       |
+| History  | `~/.local/state/kitten-pomo/pomodoro.jsonl`       |
+| Launcher | `~/.local/share/applications/kitten-pomo.desktop` |
+
+## Plain copy install (no pipx)
+
+| What     | Path                                                        |
+|----------|-------------------------------------------------------------|
+| Code     | `~/.local/share/kitten-pomo/kitten_pomo/` (package + assets) |
+| Binary   | `~/.local/bin/kitten-pomo` (symlink to `__main__.py`)       |
+| History  | `~/.local/state/kitten-pomo/pomodoro.jsonl`                 |
+| Launcher | `~/.local/share/applications/kitten-pomo.desktop`           |
+
+History is never overwritten by the installer. On first run after upgrading
+from a pre-`src/` install, an existing log at
+`~/.local/share/kitten-pomo/pomodoro.jsonl` is copied once to the state dir.
 
 The `.desktop` file is generated from `packaging/kitten-pomo.desktop.in`
-by substituting `@HOME@` with your `$HOME`, so the repo contains no
-absolute paths.
+by substituting `@HOME@` and `@ICON@`, so the repo contains no absolute
+paths.

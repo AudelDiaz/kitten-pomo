@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kitten-pomo"
+version = "0.1.0"
+description = "Pixel-art black kitten Pomodoro timer for Linux — floating always-on-top pet (PySide6) with cozy breaks and streak log."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Audel Diaz", email = "hola@audeldiaz.work" }]
+keywords = ["pomodoro", "timer", "qt", "desktop-pet", "wayland"]
+dependencies = ["PySide6"]
+
+[project.scripts]
+kitten-pomo = "kitten_pomo.app:main"
+kitten-pomo-stats = "kitten_pomo.brain:main"
+
+[project.urls]
+Homepage = "https://github.com/AudelDiaz/kitten-pomo"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+kitten_pomo = [
+  "assets/svg/*",
+  "assets/sprites/*",
+  "assets/sounds/*",
+]

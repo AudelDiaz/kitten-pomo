@@ -12,21 +12,57 @@ from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QColor, QFont, QCurso
 from PySide6.QtSvg import QSvgRenderer
 
 APP_ID = "kitten-pomo"
-SPRITES = Path(__file__).resolve().parent / "sprites"
-SVG_DIR = Path(__file__).resolve().parent / "svg"
-SOUNDS_DIR = Path(__file__).resolve().parent / "sounds"
+
 try:
-    import brain as pomodoro_brain
-except Exception as e:
-    pomodoro_brain = None
-    print(f"brain not loaded: {e}")
+    from kitten_pomo import brain as pomodoro_brain
+except ImportError:
+    try:
+        import brain as pomodoro_brain
+    except Exception as e:
+        pomodoro_brain = None
+        print(f"brain not loaded: {e}")
+
+
+def _res_file(kind, filename):
+    """Locate a bundled resource (svg|sprites|sounds) as a real Path.
+
+    Works for pip/pipx installs (package data), fallback copy installs,
+    repo checkouts (src layout) and the legacy flat layout.
+    """
+    here = Path(__file__).resolve().parent
+    candidates = (
+        here / "assets" / kind / filename,   # src layout / installed package
+        here.parent / kind / filename,       # legacy flat layout
+        here / kind / filename,              # legacy flat variant
+    )
+    for cand in candidates:
+        if cand.exists():
+            return cand
+    return None
+
+
+def _svg_bytes(name):
+    # 1. package data (pip install / pipx) — works even from wheels
+    try:
+        from importlib import resources
+        data = (resources.files("kitten_pomo") / "assets" / "svg" / f"{name}.svg").read_bytes()
+        if data:
+            return data
+    except Exception:
+        pass
+    # 2. plain files (dev checkout, fallback install, legacy layout)
+    p = _res_file("svg", f"{name}.svg")
+    if p is not None:
+        return p.read_bytes()
+    return None
+
 
 def svg_pixmap(name, size=96):
     """Render an SVG kitten to a crisp QPixmap at the given logical size."""
-    p = SVG_DIR / f"{name}.svg"
-    if not p.exists():
+    data = _svg_bytes(name)
+    if not data:
         return None
-    renderer = QSvgRenderer(QByteArray(p.read_bytes()))
+    renderer = QSvgRenderer(QByteArray(data))
     pix = QPixmap(size, size)
     pix.fill(Qt.transparent)
     painter = QPainter(pix)
@@ -128,8 +164,8 @@ class KittenPomo(QWidget):
             self.cat_label.setPixmap(pix)
         else:
             # fallback to old PNG sprites
-            p = SPRITES / f"{name}.png"
-            if p.exists():
+            p = _res_file("sprites", f"{name}.png")
+            if p is not None:
                 self.cat_label.setPixmap(QPixmap(str(p)).scaled(disp, Qt.KeepAspectRatio, Qt.SmoothTransformation))
             else:
                 self.cat_label.setText("ฅ^•ﻌ•^ฅ")
@@ -310,22 +346,26 @@ class KittenPomo(QWidget):
     def play_cozy_sound(self):
         import subprocess, shutil
         # prefer paplay / aplay with our wav, fallback to mpv, fallback to notify
-        bell = SOUNDS_DIR / "bell.wav"
-        purr = SOUNDS_DIR / "purr.wav"
+        bell = _res_file("sounds", "bell.wav")
+        purr = _res_file("sounds", "purr.wav")
         # try paplay (PulseAudio), then aplay, then mpv, then ffplay
-        for cmd in [["paplay", str(bell)], ["aplay", str(bell)], ["mpv", "--no-video", str(bell)], ["ffplay", "-nodisp", "-autoexit", str(bell)]]:
-            if shutil.which(cmd[0]):
-                try:
-                    subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                    return
-                except: pass
-        # fallback: try purr
-        for cmd in [["paplay", str(purr)], ["aplay", str(purr)]]:
-            if shutil.which(cmd[0]):
-                try:
-                    subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                    return
-                except: pass
+        sounds = [s for s in (bell, purr) if s is not None]
+        if sounds:
+            bell_file = str(sounds[0])
+            for cmd in [["paplay", bell_file], ["aplay", bell_file], ["mpv", "--no-video", bell_file], ["ffplay", "-nodisp", "-autoexit", bell_file]]:
+                if shutil.which(cmd[0]):
+                    try:
+                        subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        return
+                    except: pass
+        # fallback: try purr explicitly
+        if purr is not None:
+            for cmd in [["paplay", str(purr)], ["aplay", str(purr)]]:
+                if shutil.which(cmd[0]):
+                    try:
+                        subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        return
+                    except: pass
 
     def shake(self):
         # 5s cozy wobble — whole bubble, long and soft
@@ -434,14 +474,18 @@ class KittenPomo(QWidget):
             subprocess.Popen(["notify-send", title, body],
                              stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the `kitten-pomo` console script."""
     app = QApplication(sys.argv)
     # set app id for niri window-rule matching
     app.setDesktopFileName(APP_ID)
     w = KittenPomo()
-    # start near bottom-right, works on your 3 outputs (eDP-1 / DP-1 / HDMI-A-2)
-    # niri will also apply default-floating-position via rule
+    # start near bottom-right; niri will also apply default-floating-position via rule
     screen = app.primaryScreen().geometry()
     w.move(screen.width() - 200, screen.height() - 260)
     w.show()
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

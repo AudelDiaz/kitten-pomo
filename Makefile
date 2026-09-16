@@ -4,8 +4,8 @@ install:
 	./install.sh
 
 test:
-	python3 -m py_compile kitten-pomo.py brain.py
-	python3 brain.py --stats
+	PYTHONPATH=src python3 -m py_compile src/kitten_pomo/app.py src/kitten_pomo/brain.py
+	XDG_STATE_HOME=/tmp/kitten-pomo-test-state PYTHONPATH=src python3 -m kitten_pomo.brain --stats
 
 lint:
 	ruff check . 2>/dev/null || echo "ruff not installed, skipping lint"

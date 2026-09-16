@@ -3,11 +3,36 @@
 Kitten Pomodoro Brain — logs cycles and decides long breaks.
 150-min window: 4 consecutive work pomodoros within 150 min → next break 20 min.
 """
-import json, time
+import json, os, shutil, time
 from pathlib import Path
 from datetime import datetime, timedelta
 
-LOG = Path(__file__).parent / "pomodoro.jsonl"
+
+def _log_path():
+    """History lives in XDG state (~/.local/state/kitten-pomo/).
+
+    Migrates (copies, never moves) a legacy log found next to the install
+    so upgrading never loses history.
+    """
+    state_dir = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state")) / "kitten-pomo"
+    target = state_dir / "pomodoro.jsonl"
+    if not target.exists():
+        here = Path(__file__).resolve().parent
+        for legacy in (
+            here / "pomodoro.jsonl",
+            Path.home() / ".local" / "share" / "kitten-pomo" / "pomodoro.jsonl",
+        ):
+            if legacy.exists() and legacy != target:
+                try:
+                    state_dir.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(legacy, target)
+                    break
+                except Exception:
+                    pass
+    return target
+
+
+LOG = _log_path()
 LOG.parent.mkdir(parents=True, exist_ok=True)
 
 def _now_iso():
@@ -81,12 +106,18 @@ def stats():
     consec=consecutive_work_count()
     return {"works": works, "breaks": breaks, "consecutive": consec, "next_break": next_break_minutes()}
 
-if __name__ == "__main__":
+def main(argv=None):
+    """Entry point for the `kitten-pomo-stats` console script."""
     import sys
-    if len(sys.argv)>1 and sys.argv[1]=="--stats":
+    args = argv if argv is not None else sys.argv[1:]
+    if args and args[0] == "--stats":
         print(json.dumps(stats(), indent=2))
-    elif len(sys.argv)>1 and sys.argv[1]=="--log":
+    elif args and args[0] == "--log":
         log_work_completed()
         print("logged work, next break", next_break_minutes())
     else:
         print(stats())
+
+
+if __name__ == "__main__":
+    main()

@@ -34,16 +34,29 @@ the kitten cares about your back.
 
 ## Install
 
-You'll need Python 3 and PySide6 (`pip install PySide6`), then:
+New machine? One line, that's the whole thing:
 
 ```bash
-./install.sh
+pipx install git+https://github.com/AudelDiaz/kitten-pomo.git
+```
+
+(`pipx` creates an isolated venv, installs PySide6 for you, and puts the
+`kitten-pomo` command on your PATH. No venv juggling, no
+`--break-system-packages`.)
+
+Prefer the manual route, or no pipx around? Clone and run the installer —
+it uses pipx when available, otherwise falls back to a plain copy install:
+
+```bash
+git clone https://github.com/AudelDiaz/kitten-pomo.git
+cd kitten-pomo
+./install.sh            # pipx if present, else plain copy
+./install.sh --copy     # force the plain copy install
 # or if you're fancy: make install
 ```
 
-That puts everything in `~/.local/share/kitten-pomo`, drops a symlink in
-`~/.local/bin/kitten-pomo`, and installs the app launcher. Already have a
-history file? It won't be touched, promise. Details in `docs/paths.md`.
+Either way you get the launcher installed, and your existing history file
+is never touched, promise. Details in `docs/paths.md`.
 
 Done with the kitten? (Rude, but okay.)
 
@@ -70,7 +83,7 @@ duration — that's it, no telemetry, no cloud, it never leaves your disk).
 There's an example at `examples/pomodoro.sample.jsonl`.
 
 ```bash
-python3 brain.py --stats   # streak check + what break is coming next
+kitten-pomo-stats          # streak check + what break is coming next
 ```
 
 Fun party trick: paste the log to your AI assistant and ask it when you
