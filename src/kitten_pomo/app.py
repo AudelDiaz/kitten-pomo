@@ -491,9 +491,14 @@ def main():
     screen = app.primaryScreen().geometry()
     w.move(screen.width() - 200, screen.height() - 260)
     w.show()
-    # GNOME/Mutter re-centers utility-ish windows after mapping; re-assert our
-    # position once the window is actually on screen (no-op on niri).
-    QTimer.singleShot(120, lambda: w.move(screen.width() - 200, screen.height() - 260))
+    # GNOME/Mutter can drop WindowStaysOnTopHint after mapping; re-assert it
+    # so the bubble stays above normal windows. No-op on nuri/compositors
+    # that honor the hint from the start.
+    def reassert_top():
+        w.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
+        w.show()
+    QTimer.singleShot(120, reassert_top)
+    QTimer.singleShot(600, reassert_top)
     sys.exit(app.exec())
 
 
