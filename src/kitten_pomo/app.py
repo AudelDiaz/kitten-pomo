@@ -77,8 +77,9 @@ class KittenPomo(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("kitten-pomo")
-        # Wayland: make niri treat as floating + translucent + always on top on this workspace
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool | Qt.WindowDoesNotAcceptFocus)
+        # Frameless + always-on-top. NOTE: no Qt.Tool — GNOME/Mutter centers
+        # "utility" windows and won't let you drag them by their content.
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WA_ShowWithoutActivating, True)
 
@@ -484,6 +485,9 @@ def main():
     screen = app.primaryScreen().geometry()
     w.move(screen.width() - 200, screen.height() - 260)
     w.show()
+    # GNOME/Mutter re-centers utility-ish windows after mapping; re-assert our
+    # position once the window is actually on screen (no-op on niri).
+    QTimer.singleShot(120, lambda: w.move(screen.width() - 200, screen.height() - 260))
     sys.exit(app.exec())
 
 
