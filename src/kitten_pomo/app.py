@@ -491,14 +491,17 @@ def main():
     screen = app.primaryScreen().geometry()
     w.move(screen.width() - 200, screen.height() - 260)
     w.show()
-    # GNOME/Mutter can drop WindowStaysOnTopHint after mapping; re-assert it
-    # so the bubble stays above normal windows. No-op on nuri/compositors
-    # that honor the hint from the start.
+    # GNOME/Mutter drops WindowStaysOnTopHint whenever another window takes
+    # focus; re-assert it periodically so the bubble stays above normal windows.
+    # No-op on niri/compositors that honor the hint continuously.
     def reassert_top():
         w.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
         w.show()
     QTimer.singleShot(120, reassert_top)
     QTimer.singleShot(600, reassert_top)
+    top_timer = QTimer(w)
+    top_timer.timeout.connect(reassert_top)
+    top_timer.start(1500)  # keep the above state alive against focus changes
     sys.exit(app.exec())
 
 
