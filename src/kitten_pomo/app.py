@@ -77,9 +77,8 @@ class KittenPomo(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("kitten-pomo")
-        # Frameless + always-on-top. NOTE: no Qt.Tool — GNOME/Mutter centers
-        # "utility" windows and won't let you drag them by their content.
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
+        # Frameless + always-on-top
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WA_ShowWithoutActivating, True)
 
@@ -484,16 +483,12 @@ class KittenPomo(QWidget):
 def main():
     """Entry point for the `kitten-pomo` console script."""
     app = QApplication(sys.argv)
-    # set app id for niri window-rule matching
-    app.setDesktopFileName(APP_ID)
+    w = KittenPomo()
     w = KittenPomo()
     # start near bottom-right; niri will also apply default-floating-position via rule
     screen = app.primaryScreen().geometry()
     w.move(screen.width() - 200, screen.height() - 260)
     w.show()
-    # GNOME/Mutter re-centers utility-ish windows after mapping; re-assert our
-    # position once the window is actually on screen (no-op on niri).
-    QTimer.singleShot(120, lambda: w.move(screen.width() - 200, screen.height() - 260))
     sys.exit(app.exec())
 
 

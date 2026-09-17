@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Removed `setDesktopFileName()` (caused GNOME portal DBus app-id conflict on launch)
+- Removed `WindowDoesNotAcceptFocus` flag (simplification; Mutter handles focus fine without it)
+- Removed position re-assert timer after window map (was GNOME-centering workaround, no longer needed)
+- `install.sh` reverted to plain copy mode (no uv/pipx/pyproject.toml — just `python3 -c "import PySide6"` check)
+- Removed `build/`, `__pycache__/`, `pyproject.toml` (no longer needed)
+
 ## [0.2.0] - 2026-09-17
 
 ### Added
