@@ -9,4 +9,3 @@ Categories=Utility;
 Keywords=pomodoro;timer;kitten;cat;focus;
 StartupWMClass=kitten-pomo
 StartupNotify=false
-NoDisplay=true
