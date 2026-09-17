@@ -491,18 +491,14 @@ def main():
     screen = app.primaryScreen().geometry()
     w.move(screen.width() - 200, screen.height() - 260)
     w.show()
-    # GNOME/Mutter drops WindowStaysOnTopHint whenever another window takes
-    # focus; re-assert it periodically so the bubble stays above normal windows.
+    # GNOME/Mutter can drop WindowStaysOnTopHint after mapping; re-assert it
+    # once shortly after the window appears. No periodic timer — repeated
+    # setWindowFlags() on Mutter can mark the window invisible.
     # No-op on niri/compositors that honor the hint continuously.
     def reassert_top():
-        # Re-assert flags without show() — show() causes a visible flash on
-        # GNOME/Mutter when called on an already-visible window.
         w.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
     QTimer.singleShot(120, reassert_top)
     QTimer.singleShot(600, reassert_top)
-    top_timer = QTimer(w)
-    top_timer.timeout.connect(reassert_top)
-    top_timer.start(1500)  # keep the above state alive against focus changes
     sys.exit(app.exec())
 
 
