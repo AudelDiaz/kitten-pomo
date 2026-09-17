@@ -25,7 +25,9 @@ cp -r "$REPO_DIR/src/kitten_pomo/assets" "$DATA_DIR/"
 
 ln -sfn "$DATA_DIR/app.py" "$BIN_LINK"
 
-sed "s|@HOME@|$HOME|g" "$REPO_DIR/packaging/kitten-pomo.desktop.in" \
+ICON="$DATA_DIR/assets/svg/kitten-idle.svg"
+sed -e "s|@HOME@|$HOME|g" -e "s|@ICON@|$ICON|g" \
+  "$REPO_DIR/packaging/kitten-pomo.desktop.in" \
   > "$APPS_DIR/kitten-pomo.desktop"
 
 if command -v update-desktop-database >/dev/null 2>&1; then
