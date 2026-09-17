@@ -230,7 +230,13 @@ class KittenPomo(QWidget):
 
     def mouseMoveEvent(self, e):
         if e.buttons() & Qt.LeftButton and self.drag_pos:
-            self.move(e.globalPosition().toPoint() - self.drag_pos)
+            # GNOME/Mutter: use the compositor's native move (works on Wayland);
+            # fall back to manual move() on X11 or if the window handle isn't ready.
+            wh = self.windowHandle()
+            if wh is not None and wh.startSystemMove:
+                wh.startSystemMove()
+            else:
+                self.move(e.globalPosition().toPoint() - self.drag_pos)
             e.accept()
 
     def mouseDoubleClickEvent(self, e):
