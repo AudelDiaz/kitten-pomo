@@ -495,8 +495,9 @@ def main():
     # focus; re-assert it periodically so the bubble stays above normal windows.
     # No-op on niri/compositors that honor the hint continuously.
     def reassert_top():
+        # Re-assert flags without show() — show() causes a visible flash on
+        # GNOME/Mutter when called on an already-visible window.
         w.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
-        w.show()
     QTimer.singleShot(120, reassert_top)
     QTimer.singleShot(600, reassert_top)
     top_timer = QTimer(w)
