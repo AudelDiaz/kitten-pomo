@@ -483,11 +483,10 @@ class KittenPomo(QWidget):
 
 def main():
     """Entry point for the `kitten-pomo` console script."""
-    # Disable GNOME/Qt portal DBus integration (causes app-id conflict on GNOME)
-    QApplication.setAttribute(Qt.AA_DisableDesktopPortalIntegration, True)
     app = QApplication(sys.argv)
-    # set app id for niri window-rule matching
-    app.setDesktopFileName(APP_ID)
+    # NOTE: no setDesktopFileName — the .desktop launcher resolves the app-id
+    # via StartupWMClass; setting it here caused a portal DBus conflict on
+    # GNOME ("Connection already associated with an application ID").
     w = KittenPomo()
     # start near bottom-right; niri will also apply default-floating-position via rule
     screen = app.primaryScreen().geometry()
