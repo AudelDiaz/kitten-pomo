@@ -79,7 +79,12 @@ window-rule snippets just help it sit nicely in the corner:
 
 | Niri | Hyprland | GNOME |
 |------|----------|-------|
-| ✅ daily-driven | 🧪 untested, send help | 🧪 untested, send help |
+| ✅ daily-driven | 🧪 untested, send help | ✅ tested (v0.2.0) |
+
+On GNOME the frameless window uses the compositor's native drag
+(`startSystemMove()`). It's a frameless window, so there's no title bar —
+**press and hold** the left mouse button for ~250 ms, then drag. A quick
+click just starts the pomodoro. Details in `packaging/gnome/drag.md`.
 
 See `docs/compositors.md` and `packaging/`.
 

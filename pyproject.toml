@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kitten-pomo"
-version = "0.1.0"
+version = "0.2.0"
 description = "Pixel-art black kitten Pomodoro timer for Linux — floating always-on-top pet (PySide6) with cozy breaks and streak log."
 readme = "README.md"
 requires-python = ">=3.10"
