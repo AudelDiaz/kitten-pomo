@@ -483,6 +483,8 @@ class KittenPomo(QWidget):
 
 def main():
     """Entry point for the `kitten-pomo` console script."""
+    # Disable GNOME/Qt portal DBus integration (causes app-id conflict on GNOME)
+    QApplication.setAttribute(Qt.AA_DisableDesktopPortalIntegration, True)
     app = QApplication(sys.argv)
     # set app id for niri window-rule matching
     app.setDesktopFileName(APP_ID)
