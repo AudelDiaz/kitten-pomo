@@ -14,6 +14,9 @@
 # to skip that and go straight to copy mode.
 #
 # Never touches window-manager config. History is never overwritten.
+# Qt DBus app-id: the .desktop file carries StartupWMClass=kitten-pomo, so the
+# system resolves the app-id via the .desktop. Do NOT call setDesktopFileName()
+# in Python when a launcher is present — it causes a GNOME portal DBus crash.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

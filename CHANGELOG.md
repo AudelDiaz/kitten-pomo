@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- GNOME: window no longer closes on launch (removed `setDesktopFileName` which caused a portal DBus app-id conflict)
+- GNOME: removed periodic `setWindowFlags` timer that caused flicker/close
+- GNOME: restored `Qt.Tool` window flag (keeps window out of taskbar/dock)
+
+### Changed
+- Installer prefers `uv tool install` (with bootstrap), then `pipx`, then plain copy
+- README updated with GNOME-specific install + drag instructions
+
 ## [0.2.0] - 2026-09-17
 
 ### Added

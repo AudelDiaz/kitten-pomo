@@ -65,6 +65,11 @@ cd kitten-pomo
 Either way you get the launcher installed, and your existing history file
 is never touched, promise. Details in `docs/paths.md`.
 
+**On GNOME:** the window opens bottom-right and stays on top via Qt's
+`WindowStaysOnTopHint`. If it doesn't stay above other windows, hold the
+Super (Windows) key and drag it once — Mutter respects Super+drag for
+frameless windows. See `packaging/gnome/drag.md`.
+
 Done with the kitten? (Rude, but okay.)
 
 ```bash

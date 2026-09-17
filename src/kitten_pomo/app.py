@@ -77,9 +77,10 @@ class KittenPomo(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("kitten-pomo")
-        # Frameless + always-on-top. NOTE: no Qt.Tool — GNOME/Mutter centers
-        # "utility" windows and won't let you drag them by their content.
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
+        # Frameless + always-on-top. Qt.Tool keeps the window out of the
+        # taskbar/dock; GNOME/Mutter centers utility windows, so we re-assert
+        # position after mapping (see main()).
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool | Qt.WindowDoesNotAcceptFocus)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WA_ShowWithoutActivating, True)
 
@@ -484,9 +485,6 @@ class KittenPomo(QWidget):
 def main():
     """Entry point for the `kitten-pomo` console script."""
     app = QApplication(sys.argv)
-    # NOTE: no setDesktopFileName — the .desktop launcher resolves the app-id
-    # via StartupWMClass; setting it here caused a portal DBus conflict on
-    # GNOME ("Connection already associated with an application ID").
     w = KittenPomo()
     # start near bottom-right; niri will also apply default-floating-position via rule
     screen = app.primaryScreen().geometry()
@@ -497,7 +495,7 @@ def main():
     # setWindowFlags() on Mutter can mark the window invisible.
     # No-op on niri/compositors that honor the hint continuously.
     def reassert_top():
-        w.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowDoesNotAcceptFocus)
+        w.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
     QTimer.singleShot(120, reassert_top)
     QTimer.singleShot(600, reassert_top)
     sys.exit(app.exec())
